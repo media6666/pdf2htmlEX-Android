@@ -18,7 +18,14 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 add_library(envvar SHARED EnvVar.c)
+set_target_properties(envvar PROPERTIES
+    LINK_FLAGS "-Wl,-z,max-page-size=16384"
+)
+
 add_library(pdf2htmlEX-android SHARED pdf2htmlEX.cc CCharGC.h)
+set_target_properties(pdf2htmlEX-android PROPERTIES
+    LINK_FLAGS "-Wl,-z,max-page-size=16384"
+)
 
 find_library(log-lib log)
 
