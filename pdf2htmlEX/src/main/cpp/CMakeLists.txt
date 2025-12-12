@@ -1,36 +1,42 @@
-# CMakeLists.txt
-#
-# pdf2htmlEX-Android (https://github.com/ViliusSutkus89/pdf2htmlEX-Android)
-# Android port of pdf2htmlEX - Convert PDF to HTML without losing text or format.
-#
-# Copyright (c) 2019, 2020, 2024 Vilius Sutkus ViliusSutkus89.com
-#
-# pdf2htmlEX-Android is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License version 3 as
-# published by the Free Software Foundation.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+cmake_minimum_required(VERSION 3.10)
+
+# ================================
+# IMPORTANT: Use static STL
+# This avoids libc++_shared.so, which is 4KB pagesize and NOT compatible
+# ================================
+set(CMAKE_ANDROID_STL_TYPE c++_static)
+set(CMAKE_STL_TYPE c++_static)
+
+# Global 16KB pagesize (affects all shared libs)
+set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,-z,max-page-size=16384")
+set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} -Wl,-z,max-page-size=16384")
+set(CMAKE_EXE_LINKER_FLAGS    "${CMAKE_EXE_LINKER_FLAGS}    -Wl,-z,max-page-size=16384")
+
+# Function to apply 16KB on specific targets
+function(enable_16kb target)
+    target_link_options(${target} PRIVATE "-Wl,-z,max-page-size=16384")
+endfunction()
+
+# ===================================
+# Libraries
+# ===================================
 
 add_library(envvar SHARED EnvVar.c)
-set_target_properties(envvar PROPERTIES
-    LINK_FLAGS "-Wl,-z,max-page-size=16384"
-)
+enable_16kb(envvar)
 
 add_library(pdf2htmlEX-android SHARED pdf2htmlEX.cc CCharGC.h)
-set_target_properties(pdf2htmlEX-android PROPERTIES
-    LINK_FLAGS "-Wl,-z,max-page-size=16384"
-)
+enable_16kb(pdf2htmlEX-android)
 
+# ===================================
+# Android log
+# ===================================
 find_library(log-lib log)
 
+# ===================================
+# Linking
+# ===================================
 target_link_libraries(pdf2htmlEX-android
-  pdf2htmlex::pdf2htmlex
-  envvar
-  ${log-lib}
+    pdf2htmlex::pdf2htmlex
+    envvar
+    ${log-lib}
 )
