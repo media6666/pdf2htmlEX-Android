@@ -127,6 +127,11 @@ publishing {
     }
 }
 
+conan {
+    download = true
+    version = "1.59.0"
+}
+
 
 /**
  * Fix Gradle double-clean crash (.cxx)
