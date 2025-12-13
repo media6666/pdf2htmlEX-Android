@@ -5,8 +5,11 @@ plugins {
     id 'app.opendocument.conanandroidgradleplugin' version '0.9.2' apply false
 }
 
-group = 'app.opendocument'
-version = '0.18.27'
+// group = 'app.opendocument'
+// version = '0.18.27'
+
+group = "com.github.opendocument-app"
+version = project.findProperty("version") ?: "0.18.28"
 
 nexusPublishing {
     repositories {
