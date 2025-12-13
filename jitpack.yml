@@ -2,21 +2,12 @@ jdk:
   - openjdk17
 
 before_install:
-  # 1️⃣ Java 8 cho sdkmanager
+  # Java 8 chỉ để sdkmanager
   - sdk install java 8.0.402-tem
   - sdk use java 8.0.402-tem
   - yes | sdkmanager "ndk;26.3.11579264"
 
-  # 2️⃣ Cài Conan 1.59.0 standalone (ổn định + plugin support)
-  - mkdir -p $HOME/bin
-  - curl -L -o conan.tar.gz https://github.com/conan-io/conan/releases/download/1.59.0/conan-1.59.0-linux-x86_64.tar.gz
-  - tar -xzf conan.tar.gz
-  - mv conan $HOME/bin/conan
-  - chmod +x $HOME/bin/conan
-  - export PATH="$HOME/bin:$PATH"
-  - conan --version
-
 install:
-  # 3️⃣ Quay lại Java 17 cho Gradle
+  # Quay lại Java 17 cho Gradle
   - sdk use java 17.0.12-oracle
   - ./gradlew :pdf2htmlex:publishToMavenLocal
