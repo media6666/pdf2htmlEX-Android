@@ -7,10 +7,11 @@ before_install:
   - sdk use java 8.0.402-tem
   - yes | sdkmanager "ndk;26.3.11579264"
 
-  # 2️⃣ Cài Conan
-  - python3 --version
-  - pip3 install --user conan
-  - export PATH="$HOME/.local/bin:$PATH"
+  # 2️⃣ Cài Conan standalone (KHÔNG cần Python)
+  - mkdir -p $HOME/bin
+  - curl -L https://github.com/conan-io/conan/releases/download/1.62.0/conan-ubuntu-64.tgz | tar -xz -C $HOME/bin
+  - chmod +x $HOME/bin/conan
+  - export PATH="$HOME/bin:$PATH"
   - conan --version
 
 install:
