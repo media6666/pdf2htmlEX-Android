@@ -7,9 +7,11 @@ before_install:
   - sdk use java 8.0.402-tem
   - yes | sdkmanager "ndk;26.3.11579264"
 
-  # 2️⃣ Cài Conan standalone (KHÔNG cần Python)
+  # 2️⃣ Cài Conan 1.59.0 standalone (ổn định + plugin support)
   - mkdir -p $HOME/bin
-  - curl -L https://github.com/conan-io/conan/releases/download/1.62.0/conan-ubuntu-64.tgz | tar -xz -C $HOME/bin
+  - curl -L -o conan.tar.gz https://github.com/conan-io/conan/releases/download/1.59.0/conan-1.59.0-linux-x86_64.tar.gz
+  - tar -xzf conan.tar.gz
+  - mv conan $HOME/bin/conan
   - chmod +x $HOME/bin/conan
   - export PATH="$HOME/bin:$PATH"
   - conan --version
