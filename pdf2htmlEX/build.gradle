@@ -98,8 +98,11 @@ androidComponents {
  */
 publishing {
     publications {
-        release(MavenPublication) {
-            from components.release
+        create("release", MavenPublication) {
+
+            afterEvaluate {
+                from(components["release"])
+            }
 
             groupId = project.group
             artifactId = project.name
@@ -123,6 +126,7 @@ publishing {
         }
     }
 }
+
 
 /**
  * Fix Gradle double-clean crash (.cxx)
