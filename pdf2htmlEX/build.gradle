@@ -83,13 +83,14 @@ android {
 
 /**
  * Ensure Conan assets exist before packaging
- */
-tasks.named("generateDebugAssets").configure {
-    dependsOn("conanInstall-armv8")
-}
-
-tasks.named("generateReleaseAssets").configure {
-    dependsOn("conanInstall-armv8")
+androidComponents {
+    onVariants { variant ->
+        tasks.matching {
+            it.name == "package${variant.name.capitalize()}Assets"
+        }.configureEach {
+            dependsOn("conanInstall-armv8")
+        }
+    }
 }
 
 /**
