@@ -2,9 +2,10 @@ jdk:
   - openjdk17
 
 before_install:
-  - sdk install java 17.0.8-tem
-  - sdk use java 17.0.8-tem
+  - sdk install java 8.0.402-tem
+  - sdk use java 8.0.402-tem
   - yes | sdkmanager "ndk;26.3.11579264"
 
 install:
+  - sdk use java 17.0.12-oracle
   - ./gradlew :pdf2htmlex:publishToMavenLocal
